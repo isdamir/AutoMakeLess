@@ -1,0 +1,13 @@
+{{define "footer"}}
+	<div class="container">
+		<hr>
+		<footer>
+			<div class="row offset1">{{.Custom.Sitename}}&copy;于风:<a href="http://iyf.cc">http://iyf.cc</a></div>
+		</footer>
+	</div>
+	<script type="text/javascript" src="{{.D.Static}}add-on/bootstrap/js/bootstrap.min.js"></script>
+	{{if .D.GlobalJsFile}}<script type="text/javascript" src="{{.D.GlobalJsFile}}"></script>{{end}}
+	{{if .D.GlobalIndexJsFile}}<script type="text/javascript" src="{{.D.GlobalIndexJsFile}}"></script>{{end}}
+	{{if .D.IndexJsFile}}<script type="text/javascript" src="{{.D.IndexJsFile}}"></script>{{end}}
+    </body>
+</html>{{end}}

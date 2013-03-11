@@ -1,0 +1,106 @@
+{{template "header" .}}
+<div class="container">
+	<div class="row">
+		<h2 class="span6 offset3 well tit">
+			{{.Custom.Sitename}}
+		</h2>
+	</div>
+	<div class="modal hide" id="myModal">
+		<div class="modal-header">
+			<a class="close" data-dismiss="modal">×</a>
+			<h3>输入要监听的文件夹路径</h3>
+		</div>
+		<div class="modal-body">
+			<div class="control-group">
+				<div class="controls">
+					<input type="text" class="input-medium search-query span5" placeholder="绝对路径..." id="dir"><span class="help-inline"></span>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button class="btn" data-dismiss="modal" id="closeShow">关闭</button>
+			<button class="btn btn-primary" id="addDir">增加</button>
+		</div>
+	</div>
+	{{if .D.Body.IsRun}}
+	<div class="row">
+		<div class="span10 control-group">
+			<label class="control-label" for="multiSelect">当前监听文件夹</label>
+			<div class="controls">
+				<select multiple="multiple" id="multiSelect" class="span10">
+					{{range $Dir,$Run:=.D.Body.Dir}}
+					<option{{if $Run}}{{else}} class="label label-important"{{end}}>{{if $Run}}{{else}}目录不存在:{{end}}{{$Dir}}</option>
+					{{end}}
+				</select>
+			</div>
+		</div>
+		<div class="span2 btn-group pull-right btmenu">
+			<button class="btn" data-toggle="modal" href="#myModal">增加</button>
+			<button class="btn btn-danger" id="delDir">删除</button>
+		</div>
+	</div>
+	<div class="alert in hide">
+		<strong>警告</strong>
+	</div>
+	<div class="row">
+		<div class="span12">当前被监听的文件
+			<table class="table table-striped table-bordered table-condensed">
+				<thead>
+					<tr>
+						<th class="span8">文件</th>
+						<th>编译时间</th>
+						<th>编译结果</th>
+					</tr>
+				</thead>
+				<tbody>
+					{{range $k,$v:=.D.Body.File}}
+					<tr>
+						<td>{{$k}}</td>
+						<td>{{$v.Time}}</td>
+						<td>{{if $v.HasError}}
+							<span class="label label-important faild pointer" rel="popover" data-original-title="{{$v.Error}}">失败</span>
+							{{else}}
+							<span class="label label-success">成功</span>
+							{{end}}
+						</td>
+					</tr>
+					{{end}}
+				</tbody>
+			</table>
+			<div class="btn-group">
+				<button class="btn" id="scanCompile">扫描并重新编译</button>
+				<button class="btn btn-info" id="compile">重新编译列表项</button>
+				<button class="btn btn-danger" id="exit">退出程序</button>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<fieldset class="span12">
+			<legend>编译参数</legend>
+			<label class="checkbox">
+				<input type="checkbox" id="compress" {{if .D.Body.IsCompress}}checked{{end}}>压缩CSS
+			</label>
+		</fieldset>
+	</div>
+	<div class="row">
+		<fieldset class="span12">
+			<legend>使用注意</legend>
+			<ul class="span12">
+				<li>启动程序后必须访问一次本页面才会启动监视.然后关闭浏览器也会继续执行.</li>
+				<li>当修改文件或增加文件,页面提示信息需要手动刷新才可以看到变化</li>
+				<li><span class="label succ pointer" rel="popover" data-original-title="修改程序所在目录的data/data.json文件中的Suffix的值">修改后缀</span>后需要重新启动程序.</li>
+				<li>点击退出程序后后台进程自动关闭</li>
+				<li>修改编译参数后需要手动点击`重新编译列表项`</li>
+				<li>出现编译错误的项点击<span class="label label-important">失败</span>即可看到错误信息</li>
+				<li>删除*.less文件并且该文件被监视,那么会同时自动删除*.css文件</li>
+				<li>改名*.less文件会自动删除与该文件同名的css文件,并会自动建立改名后的css文件</li>
+				<li>程序会自动处理加入监视的目录下级新建立的目录,无需增加路径,但是这部分路径并不会显示在列表.</li>
+			</ul>
+		</fieldset>
+	</div>
+	{{else}}
+	<div class="well">程序检查到lessc无法运行,请先安装node和less.<br/>Error:{{.D.Body.Error}}<br/>安装方法参照:<a href="http://iyf.cc/archives/413">http://iyf.cc/archives/413</a><br/>安装完成后点击`重新尝试`无效的话请重启程序</div>
+	<a class="btn btn-danger" title="请解决错误后点击" href="index.html?try=1">重新尝试</a>
+	{{end}}
+</div>
+{{template "footer" .}}

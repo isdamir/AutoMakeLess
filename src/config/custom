@@ -1,0 +1,6 @@
+#自定义配置
+"Custom"                   : {
+    "Author" : "YuFeng",
+    #站点名
+    "Sitename" : "Less编译"
+}
