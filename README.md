@@ -3,7 +3,8 @@ AutoMakeLess
 一个简单的Less监视编译软件,支持windows,mac,linux,通过网页进行管理.
 
 #注意
-  使用前确保已经正确安装了node和less,并能够在命令行中执行lessc
+  使用前确保已经正确安装了node和less,并能够在命令行中执行lessc    
+  [安装方法](http://iyf.cc/archives/413)
 
 #功能
   1. 文件变更监视,当文件创建,修改,删除,改名都会在第一时间进行处理.
